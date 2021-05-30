@@ -1,4 +1,4 @@
-package com.marcoscifuentes.flutter_bloc_counter
+package com.juanpablo.dice_roller
 
 import io.flutter.embedding.android.FlutterActivity
 
