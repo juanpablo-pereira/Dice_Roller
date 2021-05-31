@@ -1,16 +1,19 @@
-# flutter_bloc_counter
+# Dice Roller app
 
-A new Flutter application.
+A set of dices that roll on touch and show the sum of the values
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is an initial practise for a Flutter application. Here it is applied the BLoC pattern (Bussiness Logic Components) to separate the logic of the application from the way it is shown on screen.
 
-A few resources to get you started if this is your first Flutter project:
+This work started from the template of a simple counter app (initial commit)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Objectives
+- Get in touch with main widgets and layout
+- Understand BLoC logic and advantages
+- Learn how user inputs (events) are managed 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Demo
+*(to do)* 
+
+- Click this link for [more useful Flutter samples (Cookbook)](https://flutter.dev/docs/cookbook)
