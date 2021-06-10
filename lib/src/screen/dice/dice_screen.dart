@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/constants.dart';
-import '../../utils/textStyles.dart';
+import '../../utils/text_styles.dart';
+import '../../bloc/i_dice_bloc.dart';
 
 class DiceScreen extends StatefulWidget {
   DiceScreen({
     Key key,
     this.title,
+    this.bloc,
   }) : super(key: key);
 
   final String title;
+  final IDiceBloc bloc;
 
   @override
   _DiceScreenState createState() => _DiceScreenState();
@@ -26,19 +29,25 @@ class _DiceScreenState extends State<DiceScreen> {
           widget.title,
         ),
       ),
-      body: GridView.count(
-        crossAxisCount: Constants.gridCrossAxisCount,
-        padding: EdgeInsets.all(
-          Constants.gridPadding,
-        ),
-        mainAxisSpacing: Constants.gridMainAxisSpacing,
-        crossAxisSpacing: Constants.gridCrossAxisSpacing,
-        children: List.generate(
-          Constants.diceAmount,
-          (int index) {
-            return _createDiceContainer(index + 1);
-          },
-        ),
+      body: StreamBuilder(
+        initialData: Constants.initialDiceValues,
+        stream: widget.bloc.valuesStream,
+        builder: (
+          context,
+          snapshot,
+        ) {
+          return GridView.count(
+            crossAxisCount: Constants.gridCrossAxisCount,
+            padding: EdgeInsets.all(
+              Constants.gridPadding,
+            ),
+            mainAxisSpacing: Constants.gridMainAxisSpacing,
+            crossAxisSpacing: Constants.gridCrossAxisSpacing,
+            children: _createDiceContainer(
+              snapshot,
+            ),
+          );
+        },
       ),
       bottomNavigationBar: Row(
         children: [
@@ -56,28 +65,49 @@ class _DiceScreenState extends State<DiceScreen> {
             'Score: ',
             style: TextStyles.bottomNavigationScoreLabelTextStyle,
           ),
-          Text(
-            '21',
-            style: TextStyles.bottomNavigationScoreValueTextStyle,
+          StreamBuilder(
+            initialData: Constants.initialScore,
+            stream: widget.bloc.scoreStream,
+            builder: (
+              context,
+              snapshot,
+            ) {
+              return Text(
+                snapshot.data,
+                style: TextStyles.bottomNavigationScoreValueTextStyle,
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _createDiceContainer(int diceNumber) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          Constants.diceContainerBorderRadius,
-        ),
-        color: Colors.blueGrey.shade700,
-      ),
-      child: Image(
-        image: AssetImage(
-          'assets/face_$diceNumber.png',
-        ),
-      ),
+  List<Widget> _createDiceContainer(AsyncSnapshot diceNumbers) {
+    var diceList = diceNumbers.data.map<Widget>(
+      (diceNumber) {
+        return InkWell(
+          onTap: () {
+            widget.bloc.roll();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                Constants.diceContainerBorderRadius,
+              ),
+              color: Colors.blueGrey.shade700,
+            ),
+            child: Image(
+              image: AssetImage(
+                '${Constants.diceContainerImageNameStart}' +
+                    '$diceNumber' +
+                    '${Constants.diceContainerImageNameEnd}',
+              ),
+            ),
+          ),
+        );
+      },
     );
+    return diceList.toList();
   }
 }

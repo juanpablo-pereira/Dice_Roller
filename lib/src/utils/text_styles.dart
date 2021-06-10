@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/constants.dart';
+import 'constants.dart';
 
 abstract class TextStyles {
   static const TextStyle bottomNavigationLabelTextStyle = TextStyle(
