@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'src/screen/dice/dice_screen.dart';
+import 'src/bloc/dice_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +18,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  final DiceBloc diceBloc = DiceBloc();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,6 +31,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: DiceScreen(
         title: 'Dice Roller',
+        bloc: this.diceBloc,
       ),
     );
   }
